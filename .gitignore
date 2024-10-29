@@ -1,0 +1,8 @@
+# ignored files for git pages deployment
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# ignore Ruby/bundler when "bundle install" is run
+/vendor

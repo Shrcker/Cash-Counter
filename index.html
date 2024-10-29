@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Money Counter</title>
+    <link rel="stylesheet" href="./assets/styles/styles.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Money Counter</h1>
+      </header>
+      <div id="tracker-wrapper">
+      </div>
+      <div id="expense-modal" class="hidden">
+        <div id="expense-header">
+        </div>
+        <div id="expense-body">
+          <label for="title-input">Title</label>
+          <input required type="text" id="title-input" class="modal-input" value="" />
+          <br>
+          <label for="amount-input">Amount</label>
+          <input required type="text" id="amount-input" class="modal-input" value="" />
+          <br>
+          <label for="date-input">Date</label>
+          <input required type="date" id="date-input" class="modal-input" value="" />
+          <br>
+          <button type="button" id="expense-submit">Submit</button>
+          <div id="error">
+
+          </div>
+        </div>
+      </div>
+      <div id="expense-list">
+
+      </div>
+      <button id="add-expense" class="button">Add Expense</button>
+    </main>
+    <script src="./script.js"></script>
+  </body>
+</html>
