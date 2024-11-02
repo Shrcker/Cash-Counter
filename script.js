@@ -9,6 +9,12 @@ const submitButton = document.getElementById("expense-submit");
 const errorMsg = document.getElementById("error");
 // exp = expense
 const expData = [];
+// Using Intl class to help format number amounts
+const USDollar = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
+
 let currentExp = {};
 
 const showModal = () => {
@@ -18,14 +24,14 @@ const showModal = () => {
 const submitExpense = () => {
   errorMsg.innerHTML = "";
 
-  if (!parseInt(amountInput.value)) {
+  if (!parseFloat(amountInput.value)) {
     throwError();
     return;
   }
 
   currentExp = {
     title: titleInput.value,
-    amount: amountInput.value,
+    amount: parseFloat(amountInput.value),
     date: dateInput.value,
   };
 
@@ -42,7 +48,7 @@ const updateList = () => {
     expenseList.innerHTML += `
       <div class="card-wrapper">
         <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Amount:</strong> $${amount}</p>
+        <p><strong>Amount:</strong> ${USDollar.format(amount)}</p>
         <p><strong>Date:</strong> ${date}</p>
       </div>
     `;
@@ -57,11 +63,11 @@ const updateTotal = () => {
   let total = 0;
 
   expData.forEach(({ amount }) => {
-    total += parseInt(amount);
+    total += amount;
   });
 
   totalTracker.innerHTML = `
-    <p><strong>Total Change:</strong> +$${total}</p>
+    <p><strong>Total Change:</strong> +${USDollar.format(total)}</p>
     <hr>
   `;
 };
