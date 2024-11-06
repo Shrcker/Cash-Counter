@@ -6,7 +6,6 @@ const dateInput = document.getElementById("date-input");
 const expenseList = document.getElementById("expense-list");
 const totalTracker = document.getElementById("tracker-wrapper");
 const submitButton = document.getElementById("expense-submit");
-const errorMsg = document.getElementById("error");
 // exp = expense
 const expData = [];
 // Using Intl class to help format number amounts
@@ -22,16 +21,22 @@ const showModal = () => {
 };
 
 const submitExpense = () => {
-  errorMsg.innerHTML = "";
+  const amountValue = amountInput.value;
 
-  if (!parseFloat(amountInput.value)) {
-    throwError();
+  if (!parseFloat(amountValue)) {
+    alert("Please input a number value for the amount");
     return;
+    
+  } if (Math.floor(amountValue) != amountValue) {
+    if (amountString.split(".")[1].length > 2) {
+      alert("Please input a number with only two decimal spaces");
+      return;
+    }
   }
 
   currentExp = {
     title: titleInput.value,
-    amount: parseFloat(amountInput.value),
+    amount: parseFloat(amountValue),
     date: dateInput.value,
   };
 
@@ -39,6 +44,10 @@ const submitExpense = () => {
   currentExp = {};
   console.log(expData);
   updateList();
+};
+
+const parseDecimal = (float) => {
+  const floatString = float.toString().split(".");
 };
 
 const updateList = () => {
@@ -70,12 +79,6 @@ const updateTotal = () => {
     <p><strong>Total Change:</strong> +${USDollar.format(total)}</p>
     <hr>
   `;
-};
-
-const throwError = (error) => {
-  errorMsg.innerHTML += `<p>Please enter a number for amount</p>`;
-
-  amountInput.value = "";
 };
 
 addExpense.addEventListener("click", showModal);

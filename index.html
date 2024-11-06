@@ -8,29 +8,27 @@
     <link rel="stylesheet" href="./assets/styles/styles.css" />
   </head>
   <body>
+    <header>
+      <h1>Money Counter</h1>
+    </header>
     <main>
-      <header>
-        <h1>Money Counter</h1>
-      </header>
-      <div id="tracker-wrapper">
-      </div>
+      <div id="tracker-wrapper"></div>
       <div id="expense-modal" class="hidden">
         <div id="expense-header">
         </div>
         <div id="expense-body">
-          <label for="title-input">Title</label>
-          <input required type="text" id="title-input" class="modal-input" value="" />
-          <br>
-          <label for="amount-input">Amount</label>
-          <input required type="text" id="amount-input" class="modal-input" value="" />
-          <br>
-          <label for="date-input">Date</label>
-          <input required type="date" id="date-input" class="modal-input" value="" />
-          <br>
-          <button type="button" id="expense-submit">Submit</button>
-          <div id="error">
-
-          </div>
+          <form id="expense-form" autocomplete="off">
+            <label for="title-input">Title</label>
+            <input type="text" id="title-input" class="modal-input" value="" autocomplete="one-time-code" required />
+            <br>
+            <label for="amount-input">Amount</label>
+            <input required type="number" id="amount-input" class="modal-input" value="" step="0.01" placeholder="100.00" />
+            <br>
+            <label for="date-input">Date</label>
+            <input required type="date" id="date-input" class="modal-input" value="" />
+            <br>
+            <button type="button" id="expense-submit">Submit</button>
+          </form>
         </div>
       </div>
       <div id="expense-list">
