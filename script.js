@@ -26,7 +26,7 @@ const submitExpense = () => {
   if (!parseFloat(amountValue)) {
     alert("Please input a number value for the amount");
     return;
-    
+
   } if (Math.floor(amountValue) != amountValue) {
     if (amountString.split(".")[1].length > 2) {
       alert("Please input a number with only two decimal spaces");
@@ -44,10 +44,6 @@ const submitExpense = () => {
   currentExp = {};
   console.log(expData);
   updateList();
-};
-
-const parseDecimal = (float) => {
-  const floatString = float.toString().split(".");
 };
 
 const updateList = () => {
