@@ -28,7 +28,7 @@ const submitExpense = () => {
     return;
 
   } if (Math.floor(amountValue) != amountValue) {
-    if (amountString.split(".")[1].length > 2) {
+    if (amountValue.split(".")[1].length > 2) {
       alert("Please input a number with only two decimal spaces");
       return;
     }
