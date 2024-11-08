@@ -18,9 +18,14 @@ let currentExp = {};
 
 const showModal = () => {
   expenseModal.classList.toggle("hidden");
+  // clear inputs whenever the modal is opened
+  titleInput.value = "";
+  amountInput.value = "";
+  dateInput.value = "";
 };
 
-const submitExpense = () => {
+const submitExpense = (event) => {
+  event.preventDefault();
   const amountValue = amountInput.value;
 
   if (!parseFloat(amountValue)) {
