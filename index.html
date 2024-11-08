@@ -19,15 +19,15 @@
         <div id="expense-body">
           <form id="expense-form" autocomplete="off">
             <label for="title-input">Title</label>
-            <input type="text" id="title-input" class="modal-input" value="" autocomplete="one-time-code" required />
+            <input required type="text" id="title-input" class="modal-input" />
             <br>
             <label for="amount-input">Amount</label>
-            <input required type="number" id="amount-input" class="modal-input" value="" step="0.01" placeholder="100.00" />
+            <input required type="number" id="amount-input" class="modal-input"  step="0.01" placeholder="100.00" />
             <br>
             <label for="date-input">Date</label>
-            <input required type="date" id="date-input" class="modal-input" value="" />
+            <input required type="date" id="date-input" class="modal-input" />
             <br>
-            <button type="button" id="expense-submit">Submit</button>
+            <button type="submit" id="expense-submit">Submit</button>
           </form>
         </div>
       </div>
