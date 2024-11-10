@@ -34,8 +34,6 @@ const submitExpense = (event) => {
     date: dateInput.value,
   };
 
-  // console.log(currentExp = { title, amount, date });
-
   if (authEntry(currentExp)) {
     expData.push(currentExp);
   } else return;
