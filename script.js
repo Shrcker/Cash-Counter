@@ -6,6 +6,7 @@ const dateInput = document.getElementById("date-input");
 const expenseList = document.getElementById("expense-list");
 const totalTracker = document.getElementById("tracker-wrapper");
 const submitButton = document.getElementById("expense-submit");
+const toggleButtons = document.getElementsByClassName("toggle");
 // exp = expense
 const expData = [];
 // Using Intl class to help format number amounts
@@ -31,6 +32,7 @@ const submitExpense = (event) => {
   currentExp = {
     title: titleInput.value,
     amount: parseFloat(amountValue),
+    type: toggleButtons[0].checked ? "Expense" : "Income",
     date: dateInput.value,
   };
 
@@ -71,11 +73,13 @@ const authEntry = ({ title, amount, date }) => {
 const updateList = () => {
   expenseList.innerHTML = "";
 
-  expData.forEach(({ title, amount, date }) => {
+  expData.forEach(({ title, amount, type, date }) => {
     expenseList.innerHTML += `
       <div class="card-wrapper">
         <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Amount:</strong> ${USDollar.format(amount)}</p>
+        <p><strong>Amount:</strong><span class=${type === "Expense" ? "exp-rec" : "inc-rec"}> 
+          ${USDollar.format(amount)}</span></p>
+        <p><strong>Type:</strong> ${type}</p>
         <p><strong>Date:</strong> ${date}</p>
       </div>
     `;
@@ -89,12 +93,16 @@ const updateTotal = () => {
   totalTracker.innerHTML = "";
   let total = 0;
 
-  expData.forEach(({ amount }) => {
-    total += amount;
+  expData.forEach(({ amount, type }) => {
+    if (type === "Expense") {
+      total -= amount;
+    } else {
+      total += amount;
+    }
   });
 
   totalTracker.innerHTML = `
-    <p><strong>Total Change:</strong> +${USDollar.format(total)}</p>
+    <p><strong>Total Change:</strong> ${USDollar.format(total)}</p>
     <hr>
   `;
 };
