@@ -28,27 +28,46 @@ const submitExpense = (event) => {
   event.preventDefault();
   const amountValue = amountInput.value;
 
-  if (!parseFloat(amountValue)) {
-    alert("Please input a number value for the amount");
-    return;
-
-  } if (Math.floor(amountValue) != amountValue) {
-    if (amountValue.split(".")[1].length > 2) {
-      alert("Please input a number with only two decimal spaces");
-      return;
-    }
-  }
-
   currentExp = {
     title: titleInput.value,
     amount: parseFloat(amountValue),
     date: dateInput.value,
   };
 
-  expData.push(currentExp);
+  // console.log(currentExp = { title, amount, date });
+
+  if (authEntry(currentExp)) {
+    expData.push(currentExp);
+  } else return;
+
   currentExp = {};
   console.log(expData);
   updateList();
+};
+
+const authEntry = ({ title, amount, date }) => {
+  let goodEntry = true;
+
+  switch (true) {
+    case title == "":
+      alert("Please input a title for the record");
+      goodEntry = false;
+      break;
+    case !parseFloat(amount):
+      alert("Please input a number for the amount");
+      goodEntry = false;
+      break;
+    case Math.floor(amount) != amount:
+      alert("Please input a number with only two decimal spaces");
+      goodEntry = false;
+      break;
+    case date == "":
+      alert("Please input a date for the record");
+      goodEntry = false;
+      break;
+  }
+
+  return goodEntry;
 };
 
 const updateList = () => {
