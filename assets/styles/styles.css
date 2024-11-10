@@ -1,3 +1,13 @@
 .hidden {
   display: none;
 }
+
+.inc-rec {
+  color: seagreen;
+  display: inline;
+}
+
+.exp-rec {
+  color: tomato;
+  display: inline;
+}
