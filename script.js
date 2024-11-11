@@ -17,6 +17,8 @@ const USDollar = new Intl.NumberFormat("en-US", {
 
 let currentExp = {};
 
+let recordInc = 0;
+
 const showModal = () => {
   expenseModal.classList.toggle("hidden");
   // clear inputs whenever the modal is opened
@@ -34,6 +36,7 @@ const submitExpense = (event) => {
     amount: parseFloat(amountValue),
     type: toggleButtons[0].checked ? "Expense" : "Income",
     date: dateInput.value,
+    id: recordInc++,
   };
 
   if (authEntry(currentExp)) {
@@ -73,19 +76,26 @@ const authEntry = ({ title, amount, date }) => {
 const updateList = () => {
   expenseList.innerHTML = "";
 
-  expData.forEach(({ title, amount, type, date }) => {
+  expData.forEach(({ title, amount, type, date, id }) => {
     expenseList.innerHTML += `
-      <div class="card-wrapper">
+      <div class="card-wrapper" id="${id}">
         <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Amount:</strong><span class=${type === "Expense" ? "exp-rec" : "inc-rec"}> 
+        <p><strong>Amount:</strong><span class=${
+          type === "Expense" ? "exp-rec" : "inc-rec"
+        }> 
           ${USDollar.format(amount)}</span></p>
         <p><strong>Type:</strong> ${type}</p>
         <p><strong>Date:</strong> ${date}</p>
+        <button type="button" id="delete-btn" onClick="deleteEntry(this)">Delete</button>
+        <br><br>
       </div>
     `;
   });
 
-  expenseModal.classList.toggle("hidden");
+  // toggle modal "hidden" state only when it's not hidden
+  if (!expenseModal.classList.contains("hidden")) {
+    expenseModal.classList.toggle("hidden");
+  }
   updateTotal();
 };
 
@@ -105,6 +115,24 @@ const updateTotal = () => {
     <p><strong>Total Change:</strong> ${USDollar.format(total)}</p>
     <hr>
   `;
+};
+
+const deleteEntry = (button) => {
+  console.log(button.parentElement);
+  const parentTitle = button.parentElement.title;
+  
+  const dataIndex = expData.findIndex((item) => item.id == button.parentElement.id);
+  console.log(dataIndex);
+  const doubleCheck = confirm(`Are you sure you wish to delete entry "${expData[dataIndex].title}"?`);
+
+  if (dataIndex >= 0 && doubleCheck) {
+    expData.splice(dataIndex);
+  } else if (!doubleCheck) {
+    return;
+  } else {
+    alert("Record does not exist.");
+  }
+  updateList();
 };
 
 addExpense.addEventListener("click", showModal);
