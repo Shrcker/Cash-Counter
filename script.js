@@ -117,8 +117,6 @@ const updateTotal = () => {
 };
 
 const deleteEntry = (button) => {
-  const parentTitle = button.parentElement.title;
-  
   const dataIndex = expData.findIndex((item) => item.id == button.parentElement.id);
   const doubleCheck = confirm(`Are you sure you wish to delete entry "${expData[dataIndex].title}"?`);
 
