@@ -44,7 +44,6 @@ const submitExpense = (event) => {
   } else return;
 
   currentExp = {};
-  console.log(expData);
   updateList();
 };
 
@@ -118,11 +117,9 @@ const updateTotal = () => {
 };
 
 const deleteEntry = (button) => {
-  console.log(button.parentElement);
   const parentTitle = button.parentElement.title;
   
   const dataIndex = expData.findIndex((item) => item.id == button.parentElement.id);
-  console.log(dataIndex);
   const doubleCheck = confirm(`Are you sure you wish to delete entry "${expData[dataIndex].title}"?`);
 
   if (dataIndex >= 0 && doubleCheck) {
