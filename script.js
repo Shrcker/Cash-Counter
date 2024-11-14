@@ -29,19 +29,23 @@ const showModal = () => {
 
 const submitExpense = (event) => {
   event.preventDefault();
-  const amountValue = amountInput.value;
+  const expIndex = expData.findIndex((item) => item.id === currentExp.id);
 
-  currentExp = {
+  const entryObj = {
     title: titleInput.value,
-    amount: parseFloat(amountValue),
+    amount: amountInput.value,
     type: toggleButtons[0].checked ? "Expense" : "Income",
     date: dateInput.value,
-    id: recordInc++,
+    id: `${recordInc++}`,
   };
 
-  if (authEntry(currentExp)) {
-    expData.push(currentExp);
-  } else return;
+  if (authEntry(entryObj)) {
+    if (expIndex === -1) {
+      expData.unshift(entryObj);
+    } else {
+      expData[expIndex] = entryObj;
+    }
+  }
 
   currentExp = {};
   updateList();
@@ -59,7 +63,7 @@ const authEntry = ({ title, amount, date }) => {
       alert("Please input a number for the amount");
       goodEntry = false;
       break;
-    case Math.floor(amount) != amount:
+    case Math.floor(amount * 100) / 100 != amount:
       alert("Please input a number with only two decimal spaces");
       goodEntry = false;
       break;
@@ -77,14 +81,13 @@ const updateList = () => {
 
   expData.forEach(({ title, amount, type, date, id }) => {
     expenseList.innerHTML += `
-      <div class="card-wrapper" id="${id}">
+      <div class="entry-wrapper" id="${id}">
         <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Amount:</strong><span class=${
-          type === "Expense" ? "exp-rec" : "inc-rec"
-        }> 
+        <p><strong>Amount:</strong><span class=${type === "Expense" ? "exp-rec" : "inc-rec"}> 
           ${USDollar.format(amount)}</span></p>
         <p><strong>Type:</strong> ${type}</p>
         <p><strong>Date:</strong> ${date}</p>
+        <button type="button" id="edit-btn" onClick="editEntry(this)">Edit</button>
         <button type="button" id="delete-btn" onClick="deleteEntry(this)">Delete</button>
         <br><br>
       </div>
@@ -117,8 +120,10 @@ const updateTotal = () => {
 };
 
 const deleteEntry = (button) => {
-  const dataIndex = expData.findIndex((item) => item.id == button.parentElement.id);
-  const doubleCheck = confirm(`Are you sure you wish to delete entry "${expData[dataIndex].title}"?`);
+  const dataIndex = expData.findIndex((item) => item.id === button.parentElement.id);
+  const doubleCheck = confirm(
+    `Are you sure you wish to delete entry "${expData[dataIndex].title}"?`
+  );
 
   if (dataIndex >= 0 && doubleCheck) {
     expData.splice(dataIndex);
@@ -128,6 +133,15 @@ const deleteEntry = (button) => {
     alert("Record does not exist.");
   }
   updateList();
+};
+
+const editEntry = (button) => {
+  const dataIndex = expData.findIndex((item) => item.id === button.parentElement.id);
+  currentExp = expData[dataIndex];
+  titleInput.value = currentExp.title;
+  amountInput.value = currentExp.amount;
+  dateInput.value = currentExp.date;
+  expenseModal.classList.toggle("hidden");
 };
 
 addExpense.addEventListener("click", showModal);
