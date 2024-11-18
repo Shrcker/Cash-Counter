@@ -30,11 +30,11 @@ const submitExpense = (event) => {
   const expIndex = expData.findIndex((item) => item.id === currentExp.id);
 
   const entryObj = {
-    title: titleInput.value,
+    title: titleInput.value.trim(),
     amount: amountInput.value,
     type: toggleButtons[0].checked ? "Expense" : "Income",
     date: dateInput.value,
-    id: `${titleInput.value.toLowerCase().replace(/\s+/g, "")}:${dateInput.value}`,
+    id: `${titleInput.value.toLowerCase().replace(/\s+/g, "_")}:${dateInput.value}`,
   };
 
   if (authEntry(entryObj)) {
@@ -49,24 +49,24 @@ const submitExpense = (event) => {
   updateList();
 };
 
-const authEntry = ({ title, amount, date }) => {
+const authEntry = ({ title, amount, date, id }) => {
   let goodEntry = true;
 
   switch (true) {
     case title == "":
-      alert("Please input a title for the record");
+      alert("Please input a title for the record.");
       goodEntry = false;
       break;
     case !parseFloat(amount):
-      alert("Please input a number for the amount");
+      alert("Please input a number for the amount.");
       goodEntry = false;
       break;
     case Math.floor(amount * 100) / 100 != amount:
-      alert("Please input a number with only two decimal spaces");
+      alert("Please input a number with only two decimal spaces.");
       goodEntry = false;
       break;
     case date == "":
-      alert("Please input a date for the record");
+      alert("Please input a date for the record.");
       goodEntry = false;
       break;
   }
