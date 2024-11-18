@@ -17,8 +17,6 @@ const USDollar = new Intl.NumberFormat("en-US", {
 
 let currentExp = {};
 
-let recordInc = 0;
-
 const showModal = () => {
   expenseModal.classList.toggle("hidden");
   // clear inputs whenever the modal is opened
@@ -36,7 +34,7 @@ const submitExpense = (event) => {
     amount: amountInput.value,
     type: toggleButtons[0].checked ? "Expense" : "Income",
     date: dateInput.value,
-    id: `${recordInc++}`,
+    id: `${titleInput.value.toLowerCase().replace(/\s+/g, "")}:${dateInput.value}`,
   };
 
   if (authEntry(entryObj)) {
