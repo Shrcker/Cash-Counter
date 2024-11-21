@@ -4,20 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Money Counter</title>
+    <title>Cash Counter</title>
     <link rel="stylesheet" href="./assets/styles/styles.css" />
   </head>
   <body>
     <header>
-      <h1>Money Counter</h1>
+      <h1>Cash Counter</h1>
     </header>
     <main>
       <div id="tracker-wrapper"></div>
-      <div id="expense-modal" class="hidden">
-        <div id="expense-header">
+      <div id="entry-modal" class="hidden">
+        <div id="cash-header">
         </div>
-        <div id="expense-body">
-          <form id="expense-form" autocomplete="off">
+        <div id="entry-body">
+          <form id="entry-form" autocomplete="off">
             <label for="title-input">Title</label>
             <input required type="text" id="title-input" class="modal-input" />
             <br>
@@ -32,14 +32,14 @@
             <input type="radio" class="toggle" name="toggle" id="income-toggle" />
             <label for="income-toggle">Income</label>
             <br><br>
-            <button type="submit" id="expense-submit">Submit</button>
+            <button type="submit" id="entry-submit">Submit</button>
           </form>
         </div>
       </div>
-      <div id="expense-list">
+      <div id="entry-list">
 
       </div>
-      <button id="add-expense" class="button">Add Expense</button>
+      <button id="add-entry" class="button">Add Expense</button>
     </main>
     <script src="./script.js"></script>
   </body>
