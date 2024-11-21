@@ -1,24 +1,24 @@
-const addExpense = document.getElementById("add-expense");
-const expenseModal = document.getElementById("expense-modal");
+const addEntry = document.getElementById("add-entry");
+const entryModal = document.getElementById("entry-modal");
 const titleInput = document.getElementById("title-input");
 const amountInput = document.getElementById("amount-input");
 const dateInput = document.getElementById("date-input");
-const expenseList = document.getElementById("expense-list");
+const entryList = document.getElementById("entry-list");
 const totalTracker = document.getElementById("tracker-wrapper");
-const submitButton = document.getElementById("expense-submit");
+const submitButton = document.getElementById("entry-submit");
 const toggleButtons = document.getElementsByClassName("toggle");
-// exp = expense
-const expData = JSON.parse(localStorage.getItem("cashData")) || [];
+
+const cashData = JSON.parse(localStorage.getItem("cashData")) || [];
 // Using Intl class to help format number amounts
 const USDollar = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
 });
 
-let currentExp = {};
+let currentEntry = {};
 
 const showModal = () => {
-  expenseModal.classList.toggle("hidden");
+  entryModal.classList.toggle("hidden");
   // clear inputs whenever the modal is opened
   titleInput.value = "";
   amountInput.value = "";
@@ -27,9 +27,9 @@ const showModal = () => {
 
 const submitExpense = (event) => {
   event.preventDefault();
-  const expIndex = expData.findIndex((item) => item.id === currentExp.id);
+  const entryIndex = cashData.findIndex((item) => item.id === currentEntry.id);
 
-  const entryObj = {
+  const cashObject = {
     title: titleInput.value.trim(),
     amount: amountInput.value,
     type: toggleButtons[0].checked ? "Expense" : "Income",
@@ -37,20 +37,20 @@ const submitExpense = (event) => {
     id: `${titleInput.value.toLowerCase().replace(/\s+/g, "_")}:${dateInput.value}`,
   };
 
-  if (authEntry(entryObj)) {
-    if (expIndex === -1) {
-      expData.unshift(entryObj);
+  if (verifyEntry(cashObject)) {
+    if (entryIndex === -1) {
+      cashData.unshift(cashObject);
     } else {
-      expData[expIndex] = entryObj;
+      cashData[entryIndex] = cashObject;
     }
-    localStorage.setItem("cashData", JSON.stringify(expData));
+    localStorage.setItem("cashData", JSON.stringify(cashData));
   }
 
-  currentExp = {};
+  currentEntry = {};
   updateList();
 };
 
-const authEntry = ({ title, amount, date, id }) => {
+const verifyEntry = ({ title, amount, date, id }) => {
   let goodEntry = true;
 
   switch (true) {
@@ -76,10 +76,10 @@ const authEntry = ({ title, amount, date, id }) => {
 };
 
 const updateList = () => {
-  expenseList.innerHTML = "";
+  entryList.innerHTML = "";
 
-  expData.forEach(({ title, amount, type, date, id }) => {
-    expenseList.innerHTML += `
+  cashData.forEach(({ title, amount, type, date, id }) => {
+    entryList.innerHTML += `
       <div class="entry-wrapper" id="${id}">
         <p><strong>Title:</strong> ${title}</p>
         <p><strong>Amount:</strong><span class=${type === "Expense" ? "exp-rec" : "inc-rec"}> 
@@ -94,8 +94,8 @@ const updateList = () => {
   });
 
   // toggle modal "hidden" state only when it's not hidden
-  if (!expenseModal.classList.contains("hidden")) {
-    expenseModal.classList.toggle("hidden");
+  if (!entryModal.classList.contains("hidden")) {
+    entryModal.classList.toggle("hidden");
   }
   updateTotal();
 };
@@ -104,7 +104,7 @@ const updateTotal = () => {
   totalTracker.innerHTML = "";
   let total = 0;
 
-  expData.forEach(({ amount, type }) => {
+  cashData.forEach(({ amount, type }) => {
     if (type === "Expense") {
       total -= amount;
     } else {
@@ -119,15 +119,15 @@ const updateTotal = () => {
 };
 
 const deleteEntry = (button) => {
-  const dataIndex = expData.findIndex((item) => item.id === button.parentElement.id);
-  const doubleCheck = confirm(
-    `Are you sure you wish to delete entry "${expData[dataIndex].title}"?`
+  const dataIndex = cashData.findIndex((item) => item.id === button.parentElement.id);
+  const verifyDelete = confirm(
+    `Are you sure you wish to delete entry "${cashData[dataIndex].title}"?`
   );
 
-  if (dataIndex >= 0 && doubleCheck) {
-    expData.splice(dataIndex);
-    localStorage.setItem("cashData", JSON.stringify(expData));
-  } else if (!doubleCheck) {
+  if (dataIndex >= 0 && verifyDelete) {
+    cashData.splice(dataIndex, 1);
+    localStorage.setItem("cashData", JSON.stringify(cashData));
+  } else if (!verifyDelete) {
     return;
   } else {
     alert("Record does not exist.");
@@ -136,17 +136,17 @@ const deleteEntry = (button) => {
 };
 
 const editEntry = (button) => {
-  const dataIndex = expData.findIndex((item) => item.id === button.parentElement.id);
-  currentExp = expData[dataIndex];
-  titleInput.value = currentExp.title;
-  amountInput.value = currentExp.amount;
-  dateInput.value = currentExp.date;
-  expenseModal.classList.toggle("hidden");
+  const dataIndex = cashData.findIndex((item) => item.id === button.parentElement.id);
+  currentEntry = cashData[dataIndex];
+  titleInput.value = currentEntry.title;
+  amountInput.value = currentEntry.amount;
+  dateInput.value = currentEntry.date;
+  entryModal.classList.toggle("hidden");
 };
 
-if (expData.length) {
+if (cashData.length) {
   updateList();
 }
 
-addExpense.addEventListener("click", showModal);
+addEntry.addEventListener("click", showModal);
 submitButton.addEventListener("click", submitExpense);
