@@ -8,7 +8,7 @@ const totalTracker = document.getElementById("tracker-wrapper");
 const submitButton = document.getElementById("expense-submit");
 const toggleButtons = document.getElementsByClassName("toggle");
 // exp = expense
-const expData = [];
+const expData = JSON.parse(localStorage.getItem("cashData")) || [];
 // Using Intl class to help format number amounts
 const USDollar = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -43,6 +43,7 @@ const submitExpense = (event) => {
     } else {
       expData[expIndex] = entryObj;
     }
+    localStorage.setItem("cashData", JSON.stringify(expData));
   }
 
   currentExp = {};
@@ -125,6 +126,7 @@ const deleteEntry = (button) => {
 
   if (dataIndex >= 0 && doubleCheck) {
     expData.splice(dataIndex);
+    localStorage.setItem("cashData", JSON.stringify(expData));
   } else if (!doubleCheck) {
     return;
   } else {
@@ -141,6 +143,10 @@ const editEntry = (button) => {
   dateInput.value = currentExp.date;
   expenseModal.classList.toggle("hidden");
 };
+
+if (expData.length) {
+  updateList();
+}
 
 addExpense.addEventListener("click", showModal);
 submitButton.addEventListener("click", submitExpense);
