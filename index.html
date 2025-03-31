@@ -13,33 +13,38 @@
     </header>
     <main>
       <div id="tracker-wrapper"></div>
-      <div id="entry-modal" class="hidden">
+        <div id="add-wrapper">
+          <button id="add-entry" class="button">Add Expense</button>
+        </div>
+      <div id="form-wrapper" class="hidden">
         <div id="cash-header">
         </div>
-        <div id="entry-body">
+        <div id="form-body">
           <form id="entry-form" autocomplete="off">
             <label for="title-input">Title</label>
-            <input required type="text" id="title-input" class="modal-input" />
+            <input required type="text" id="title-input" class="form-input" />
             <br>
             <label for="amount-input">Amount</label>
-            <input required type="number" id="amount-input" class="modal-input"  step="0.01" placeholder="100.00" />
+            <input required type="number" id="amount-input" class="form-input"  step="0.01" placeholder="100.00" />
             <br>
             <label for="date-input">Date</label>
-            <input required type="date" id="date-input" class="modal-input" />
+            <input required type="date" id="date-input" class="form-input" />
             <br>
-            <input type="radio" class="toggle" name="toggle" id="expense-toggle" checked />
-            <label for="expense-toggle">Expense</label>
-            <input type="radio" class="toggle" name="toggle" id="income-toggle" />
-            <label for="income-toggle">Income</label>
+            <div class="toggles-wrapper">
+              <input type="radio" class="toggle-input" name="toggle" id="exp-toggle" checked />
+              <label for="exp-toggle" class="toggle-label">Expense</label>
+              <input type="radio" class="toggle-input" name="toggle" id="inc-toggle" />
+              <label for="inc-toggle" class="toggle-label">Income</label>
+            </div>
             <br><br>
-            <button type="submit" id="entry-submit">Submit</button>
+            <button type="submit" id="entry-submit" class="button card-button">Submit</button>
+            <button type="button" id="cancel-button" class="button card-button">Cancel</button>
           </form>
         </div>
       </div>
       <div id="entry-list">
 
       </div>
-      <button id="add-entry" class="button">Add Expense</button>
     </main>
     <script src="./script.js"></script>
   </body>

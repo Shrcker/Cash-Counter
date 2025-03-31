@@ -1,13 +1,247 @@
+:root {
+  --main-btn-color: #5E4AE3;
+  /* --accent-color for code imported at line 171 */
+  --accent-color: #5E4AE3;
+  --accent-color2: #8578d6;
+  --inc-btn-color: #307351;
+  --delete-btn-color: #F7996E;
+  --background-color: #FCF7FF;
+  --border-width: 0.125em;
+}
+
+* {
+  background-color: var(--background-color);
+  box-sizing: border-box;
+}
+
+body {
+  font-weight: 500;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  padding: 5% 0 10px 0;
+}
+
+h1 {
+  align-items: center;
+  margin: auto;
+  text-align: center;
+}
+
 .hidden {
   display: none;
 }
 
 .inc-rec {
-  color: seagreen;
+  color: var(--inc-btn-color);
   display: inline;
 }
 
 .exp-rec {
-  color: tomato;
+  color: var(--delete-btn-color);
   display: inline;
 }
+
+.button {
+  transition: all 0.2s;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  outline: 0;
+  color: white;
+  background-color: var(--main-btn-color);
+  cursor: pointer;
+  font-family: sans-serif;
+}
+
+.button:hover {
+  filter: brightness(95%);
+}
+
+.button:active {
+  filter: brightness(80%);
+}
+
+.button-wrapper {
+  display: flex;
+  width: 50%;
+
+}
+
+#form-wrapper {
+  /* display: block; */
+  padding: 0px;
+  width: 30%;
+  margin: 8px 8px;
+  border: none;
+  box-shadow: 1px 1px 1px 1px gray;
+  border-radius: 16px;
+}
+
+#form-body {
+  border: solid var(--background-color);
+  display: flex;
+}
+
+#add-entry {
+  /* display: inline-block; */
+  margin: 10px;
+  padding: 10px;
+  color: white;
+  border: 0;
+  border-radius: 4rem;
+}
+
+#add-entry:active {
+  translate: 1px 2px;
+}
+
+.entry-wrapper {
+  display: inline-block;
+  padding: 0px;
+  width: 20%;
+  margin: 8px 8px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 1px 1px gray;
+  border: none;
+  overflow: hidden;
+  
+}
+
+.p-wrapper {
+  padding: 4px; 
+}
+
+#tracker-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-button {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  align-items: center;
+  align-self: stretch;
+  padding: 10px;
+  width: 100%;
+}
+
+input {
+  padding: 6px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid var(--delete-btn-color);
+}
+
+.card-button:active {
+  translate: 0 2px;
+}
+
+.edit {
+  background-color: var(--inc-btn-color);
+}
+
+.delete {
+  background-color: rgb(221, 85, 61);
+}
+
+#entry-form {
+  display: block;
+  border: 1px solid transparent;
+  padding: 10px;
+  margin: 5px;
+  width: 100%;
+}
+
+#entry-submit {
+  width: 100%;
+  background-color: rgb(94, 74, 227);
+}
+
+#entry-submit:active {
+  background-color: rgb(56, 29, 42);
+}
+
+.form-input {
+  margin: 0.40rem;
+}
+
+/* original version of code from https://codepen.io/razwan/pen/RwQdMwM */
+
+.toggles-wrapper {
+  position: relative;
+  border-radius: 999em;
+  overflow: hidden;
+
+  height: 2rem;
+  width: 80%;
+
+  display: flex;
+  flex-direction: row-reverse;
+
+  > * {
+    flex: 33.33%;
+  }
+
+  &:after {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    border: var(--border-width) solid;
+    border-radius: 999em;
+    pointer-events: none;
+  }
+}
+
+.toggle-input {
+	display: none;
+
+	&:checked + .toggle-label {
+		background-color: var(--accent-color);
+		color: white;
+
+		&:before {
+			opacity: 1;
+		}
+	}
+	
+	&:nth-of-type(1) + label { order: 2 }
+	&:nth-of-type(2) + label { order: 1 }
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  color: var(--main-btn-color);
+
+  &:hover {
+    color: var(--accent-color2);
+  }
+
+  &:nth-of-type(2) {
+    border-left: var(--border-width) solid var(--accent-color);
+    border-right: var(--border-width) solid var(--accent-color);
+  }
+  &:last-of-type {
+    border-left: var(--border-width) solid var(--accent-color);
+  }
+}
+
+/* end of imported code */

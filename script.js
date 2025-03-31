@@ -1,12 +1,15 @@
-const addEntry = document.getElementById("add-entry");
-const entryModal = document.getElementById("entry-modal");
+const addBtn = document.getElementById("add-entry");
+const cancelBtn = document.getElementById("cancel-button");
+const entryForm = document.getElementById("form-wrapper");
 const titleInput = document.getElementById("title-input");
 const amountInput = document.getElementById("amount-input");
 const dateInput = document.getElementById("date-input");
 const entryList = document.getElementById("entry-list");
 const totalTracker = document.getElementById("tracker-wrapper");
-const submitButton = document.getElementById("entry-submit");
-const toggleButtons = document.getElementsByClassName("toggle");
+const submitBtn = document.getElementById("entry-submit");
+const toggleBtns = document.getElementsByClassName("toggle-input");
+const editBtns = document.getElementsByClassName("edit");
+const deleteBtns = document.getElementsByClassName("delete");
 
 const cashData = JSON.parse(localStorage.getItem("cashData")) || [];
 // Using Intl class to help format number amounts
@@ -17,13 +20,17 @@ const USDollar = new Intl.NumberFormat("en-US", {
 
 let currentEntry = {};
 
-const showModal = () => {
-  entryModal.classList.toggle("hidden");
+const showForm = () => {
+  entryForm.classList.remove("hidden");
   // clear inputs whenever the modal is opened
   titleInput.value = "";
   amountInput.value = "";
   dateInput.value = "";
 };
+
+const hideForm = () => {
+  entryForm.classList.add("hidden");
+}
 
 const submitExpense = (event) => {
   event.preventDefault();
@@ -32,7 +39,7 @@ const submitExpense = (event) => {
   const cashObject = {
     title: titleInput.value.trim(),
     amount: amountInput.value,
-    type: toggleButtons[0].checked ? "Expense" : "Income",
+    type: toggleBtns[0].checked ? "Expense" : "Income",
     date: dateInput.value,
     id: `${titleInput.value.toLowerCase().replace(/\s+/g, "_")}:${dateInput.value}`,
   };
@@ -81,21 +88,24 @@ const updateList = () => {
   cashData.forEach(({ title, amount, type, date, id }) => {
     entryList.innerHTML += `
       <div class="entry-wrapper" id="${id}">
-        <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Amount:</strong><span class=${type === "Expense" ? "exp-rec" : "inc-rec"}> 
-          ${USDollar.format(amount)}</span></p>
-        <p><strong>Type:</strong> ${type}</p>
-        <p><strong>Date:</strong> ${date}</p>
-        <button type="button" id="edit-btn" onClick="editEntry(this)">Edit</button>
-        <button type="button" id="delete-btn" onClick="deleteEntry(this)">Delete</button>
-        <br><br>
+        <div class="p-wrapper">
+          <p><strong>Title:</strong> ${title}</p>
+          <p><strong>Amount:</strong><span class=${type === "Expense" ? "exp-rec" : "inc-rec"}> 
+            ${USDollar.format(amount)}</span></p>
+          <p><strong>Type:</strong> ${type}</p>
+          <p><strong>Date:</strong> ${date}</p>
+        </div>
+        <div class="button-wrapper">
+          <button type="button" class="button card-button edit" onClick="editEntry(this, '${id}')">Edit</button>
+          <button type="button" class="button card-button delete" onClick="deleteEntry(this, '${id}')">Delete</button>
+        </div>
       </div>
     `;
   });
 
   // toggle modal "hidden" state only when it's not hidden
-  if (!entryModal.classList.contains("hidden")) {
-    entryModal.classList.toggle("hidden");
+  if (!entryForm.classList.contains("hidden")) {
+    entryForm.classList.toggle("hidden");
   }
   updateTotal();
 };
@@ -106,20 +116,21 @@ const updateTotal = () => {
 
   cashData.forEach(({ amount, type }) => {
     if (type === "Expense") {
-      total -= amount;
+      total -= Number(amount);
     } else {
-      total += amount;
+      total += Number(amount);
     }
   });
 
   totalTracker.innerHTML = `
-    <p><strong>Total Change:</strong> ${USDollar.format(total)}</p>
-    <hr>
+    <p><strong>Total Change:</strong></p>
+    <p><span class=${total >= 0 ? "inc-rec" : "exp-rec"}>
+      ${USDollar.format(total)}</span></p>
   `;
 };
 
-const deleteEntry = (button) => {
-  const dataIndex = cashData.findIndex((item) => item.id === button.parentElement.id);
+const deleteEntry = (button, id) => {
+  const dataIndex = cashData.findIndex((item) => item.id === id);
   const verifyDelete = confirm(
     `Are you sure you wish to delete entry "${cashData[dataIndex].title}"?`
   );
@@ -135,18 +146,19 @@ const deleteEntry = (button) => {
   updateList();
 };
 
-const editEntry = (button) => {
-  const dataIndex = cashData.findIndex((item) => item.id === button.parentElement.id);
+const editEntry = (button, id) => {
+  const dataIndex = cashData.findIndex((item) => item.id === id);
   currentEntry = cashData[dataIndex];
   titleInput.value = currentEntry.title;
   amountInput.value = currentEntry.amount;
   dateInput.value = currentEntry.date;
-  entryModal.classList.toggle("hidden");
+  entryForm.classList.toggle("hidden");
 };
 
 if (cashData.length) {
   updateList();
 }
 
-addEntry.addEventListener("click", showModal);
-submitButton.addEventListener("click", submitExpense);
+addBtn.addEventListener("click", showForm);
+submitBtn.addEventListener("click", submitExpense);
+cancelBtn.addEventListener("click", hideForm);
