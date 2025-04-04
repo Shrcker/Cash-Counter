@@ -22,6 +22,10 @@ This project is designed for personal use in tracking either your funds or just 
 <h2 id='credits'> Credits</h2>
 <br />
 Thanks goes to Freecodecamp for keeping their lesson series fully accessible and easy to reference. I relied on their Javascript curriculum, which I completed previously, as notes for the general structure and layout of this application.
+
+Additional thank you to CodePen and Răzvan for hosting the CSS script for the "Expense/Income" radio buttons. Link to their profile is <a href="https://codepen.io/razwan">Here</a>.
+
+Finally, thank you so much to my close friends with whom I've been bouncing off of to figure out how to use CSS :p
 <br />
 <h2 id='license'> License</h2>
 <br /> 
